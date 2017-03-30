@@ -1,21 +1,23 @@
+/*
 function loadIndex() {
   $.get('/projects', function(projects, status) {
     if(status == 200) {
       $('body').clear();
-      projects.forEach(function(project) {
+      projects.forEach(function(project){
         var link = $('a')
-                    .text(project.name)
-                    .attr('href', '/projects/' + project.id)
-                    .on('click', function(e) {
-                      e.preventDefault();
-                      loadProject('/projects/' + project.id)
-                    });
+          .text(project.name)
+          .attr('href', '/projects/' + project.id)
+          .on('click', function(e){
+            e.preventDefault();
+            loadProject('/projects/' + project.id);
+          });
         $('body').append(link);
       });
     }
   });
 }
-/*
+*/
+
 function loadIndex() {
   var xhr = new XMLHttpRequest();
   xhr.open('GET', '/projects/');
@@ -28,23 +30,24 @@ function loadIndex() {
       if (xhr.status === OK) {
         console.log(xhr.responseText); // 'This is the returned text.'
         var projects = JSON.parse(xhr.responseText);
-        projects.forEach((project) => {
+        projects.forEach(function(project){
           var name = document.createElement('a');
           name.innerHTML = project.name;
           name.href = "/projects/" + project.id;
           document.body.appendChild(name);
           project.onClick = function(event) {
-            event.prevendDefault();
-            loadProject('/projects/' + project.id);
+            event.preventDefault();
+            loadProject("/projects/" + project.id);
           }
         });
+
       } else {
         console.log('Error: ' + xhr.status); // An error occurred during the request.
       }
     }
   }
 }
-*/
+
 function loadProject(url) {
   var xhr = new XMLHttpRequest();
   xhr.open('GET', url);
@@ -64,6 +67,7 @@ function loadProject(url) {
         image.src = project.imageSrc;
         wrapper.appendChild(name);
         wrapper.appendChild(image);
+        document.body.
         document.body.appendChild(wrapper);
       } else {
         console.log('Error: ' + xhr.status); // An error occurred during the request.
