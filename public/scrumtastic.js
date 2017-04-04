@@ -1,22 +1,39 @@
-/*
+
 function loadIndex() {
   $.get('/projects', function(projects, status) {
-    if(status == 200) {
-      $('body').clear();
+    console.log(projects, status);
+    if(status == "success") {
+      //$('body').clear();
       projects.forEach(function(project){
-        var link = $('a')
+        var link = $('<a>')
           .text(project.name)
           .attr('href', '/projects/' + project.id)
           .on('click', function(e){
             e.preventDefault();
             loadProject('/projects/' + project.id);
-          });
-        $('body').append(link);
+          }).appendTo('body');
       });
+      $('<button>').text('Add Project').on('click', function() {
+        // Add form to the page
+        $('body').load('/public/project-form.html', function(){
+          // Override default form action
+          $('form').on('submit', function(event){
+            event.preventDefault();
+            var data = new FormData($('form')[0]);
+            $.post({
+              url: '/projects',
+              data: data,
+              contentType: 'multipart/form-data',
+              processData: false
+            });
+          });
+        });
+
+      }).appendTo('body');
     }
   });
 }
-*/
+/*
 
 function loadIndex() {
   var xhr = new XMLHttpRequest();
@@ -41,12 +58,14 @@ function loadIndex() {
           }
         });
 
+
       } else {
         console.log('Error: ' + xhr.status); // An error occurred during the request.
       }
     }
   }
 }
+*/
 
 function loadProject(url) {
   var xhr = new XMLHttpRequest();
